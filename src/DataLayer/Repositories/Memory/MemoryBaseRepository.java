@@ -1,4 +1,4 @@
-package DataLayer.Repositories.Classes;
+package DataLayer.Repositories.Memory;
 
 import DataLayer.Database.MemoryDatabase;
 import DataLayer.Entities.BaseEntity;

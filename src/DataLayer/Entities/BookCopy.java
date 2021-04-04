@@ -32,4 +32,12 @@ public class BookCopy extends BaseEntity {
     public void setLibraryRentals(List<LibraryRental> libraryRentals) {
         this.libraryRentals = libraryRentals;
     }
+
+    @Override
+    public String toString() {
+        return "BookCopy{" +
+                "id=" + id +
+                ", libraryBookId=" + libraryBookId +
+                '}';
+    }
 }

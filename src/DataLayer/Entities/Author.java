@@ -30,4 +30,13 @@ public class Author extends BaseEntity{
     public void setLibraryBooks(List<LibraryBook> libraryBooks) {
         this.libraryBooks = libraryBooks;
     }
+
+    @Override
+    public String toString() {
+        return "Author{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", id=" + id +
+                '}';
+    }
 }

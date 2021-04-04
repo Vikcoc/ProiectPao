@@ -1,16 +1,22 @@
-package DataLayer.Repositories.Classes;
+package DataLayer.Repositories.Memory;
 
 import DataLayer.Entities.BaseEntity;
+import DataLayer.Repositories.Interfaces.AuthorRepository;
+import DataLayer.Repositories.Interfaces.UnitOfWork;
 import DataLayer.Tuple;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MemoryUnitOfWork {
+public class MemoryUnitOfWork implements UnitOfWork {
     private List<Tuple<BaseEntity,BaseEntity>> tracker;
+    private final AuthorRepository authorRepository;
+
+    public MemoryUnitOfWork(AuthorRepository authorRepository) {
+        this.authorRepository = authorRepository;
+    }
 
     List<BaseEntity> addToTracking(List<BaseEntity> entities){
 
@@ -95,4 +101,8 @@ public class MemoryUnitOfWork {
         return 0;
     }
 
+    @Override
+    public AuthorRepository authorRepository() {
+        return authorRepository;
+    }
 }

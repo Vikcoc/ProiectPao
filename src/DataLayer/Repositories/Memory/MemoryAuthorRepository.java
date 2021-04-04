@@ -1,11 +1,9 @@
-package DataLayer.Repositories.Classes;
+package DataLayer.Repositories.Memory;
 
 import DataLayer.Database.MemoryDatabase;
 import DataLayer.Entities.Author;
 import DataLayer.Entities.BaseEntity;
 import DataLayer.Repositories.Interfaces.AuthorRepository;
-import DataLayer.Repositories.Interfaces.BaseRepository;
-import DataLayer.Repositories.Interfaces.UnitOfWork;
 import DataLayer.Tuple;
 
 import java.util.Arrays;

@@ -60,4 +60,14 @@ public class LibraryBook extends BaseEntity{
     public void setBookCopies(List<BookCopy> bookCopies) {
         this.bookCopies = bookCopies;
     }
+
+    @Override
+    public String toString() {
+        return "LibraryBook{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", authorId=" + authorId +
+                ", sectionId=" + sectionId +
+                '}';
+    }
 }

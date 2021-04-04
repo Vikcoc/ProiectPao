@@ -7,4 +7,36 @@ public class Section extends BaseEntity{
     private String description;
     private List<LibraryBook> libraryBooks;
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public List<LibraryBook> getLibraryBooks() {
+        return libraryBooks;
+    }
+
+    public void setLibraryBooks(List<LibraryBook> libraryBooks) {
+        this.libraryBooks = libraryBooks;
+    }
+
+    @Override
+    public String toString() {
+        return "Section{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }
