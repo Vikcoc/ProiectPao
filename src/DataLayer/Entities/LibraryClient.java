@@ -1,5 +1,6 @@
 package DataLayer.Entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LibraryClient extends BaseEntity{
@@ -7,6 +8,10 @@ public class LibraryClient extends BaseEntity{
     private String lastName;
 
     private List<LibraryRental> libraryRentals;
+
+    public LibraryClient() {
+        libraryRentals = new ArrayList<>();
+    }
 
     public String getFirstName() {
         return firstName;

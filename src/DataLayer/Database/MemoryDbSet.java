@@ -2,11 +2,18 @@ package DataLayer.Database;
 
 import DataLayer.Entities.BaseEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MemoryDbSet<T extends BaseEntity>{
     private Integer count;
     private List<T> entities;
+
+    public MemoryDbSet()
+    {
+        count = 0;
+        entities = new ArrayList<>();
+    }
 
     public Integer getCount() {
         return count;

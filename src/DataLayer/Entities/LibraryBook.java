@@ -1,5 +1,6 @@
 package DataLayer.Entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LibraryBook extends BaseEntity{
@@ -12,6 +13,10 @@ public class LibraryBook extends BaseEntity{
     private Section section;
 
     private List<BookCopy> bookCopies;
+
+    public LibraryBook(){
+        bookCopies = new ArrayList<>();
+    }
 
     public String getName() {
         return name;

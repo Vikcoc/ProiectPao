@@ -15,9 +15,9 @@ public class MemoryDatabase {
     private MemoryDbSet<LibraryRental> libraryRentals;
     private MemoryDbSet<Section> sections;
 
-    private static MemoryDatabase memoryDatabase;
+    private static MemoryDatabase memoryDatabase = null;
 
-    public static MemoryDatabase GetDatabase()
+    public static MemoryDatabase getInstance()
     {
         if (memoryDatabase == null)
         {
@@ -26,7 +26,14 @@ public class MemoryDatabase {
         return memoryDatabase;
     }
 
-    private MemoryDatabase(){}
+    private MemoryDatabase(){
+        authors = new MemoryDbSet<>();
+        bookCopies = new MemoryDbSet<>();
+        libraryBooks = new MemoryDbSet<>();
+        libraryClients = new MemoryDbSet<>();
+        libraryRentals = new MemoryDbSet<>();
+        sections = new MemoryDbSet<>();
+    }
 
     public void seed()
     {
@@ -38,7 +45,7 @@ public class MemoryDatabase {
 
         var author1 = new Author();
         author1.setFirstName("Ana");
-        author1.setFirstName("Birchall");
+        author1.setLastName("Birchall");
 //        author1.setLibraryBooks();
         author1.setId(1);
 
@@ -78,7 +85,7 @@ public class MemoryDatabase {
 
         var author2 = new Author();
         author2.setFirstName("Fera");
-        author2.setFirstName("Gamo");
+        author2.setLastName("Gamo");
 //        author2.setLibraryBooks();
         author2.setId(2);
 
@@ -104,7 +111,7 @@ public class MemoryDatabase {
         var client = new LibraryClient();
         client.setId(1);
         client.setFirstName("Victor");
-        client.setFirstName("Vikcoc");
+        client.setLastName("Vikcoc");
 //        client.setLibraryRentals();
 
         var lr1 = new LibraryRental();

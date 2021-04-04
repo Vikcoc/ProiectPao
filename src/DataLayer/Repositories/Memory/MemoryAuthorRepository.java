@@ -64,7 +64,7 @@ public class MemoryAuthorRepository extends MemoryBaseRepository<Author> impleme
             return Optional.empty();
 
         var aux = mem.stream()
-                .map(aut -> new Tuple<Author, Integer>(aut,
+                .map(aut -> new Tuple<>(aut,
                         aut.getLibraryBooks().stream()
                                 .map(book -> book.getBookCopies().stream()
                                         .map(bookCopy -> bookCopy.getLibraryRentals().size()).reduce(0, Integer::sum))
@@ -73,7 +73,7 @@ public class MemoryAuthorRepository extends MemoryBaseRepository<Author> impleme
 
         if (aux.isPresent()) {
             var aux2 =  aux.get().getLeft();
-            var aux3 = memoryUnitOfWork.addToTracking(Arrays.asList(new BaseEntity[] {aux2}));
+            var aux3 = memoryUnitOfWork.addToTracking(Arrays.asList(aux2));
             return Optional.of((Author) aux3.stream().findFirst().get());
         }
 

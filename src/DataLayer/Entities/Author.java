@@ -1,11 +1,16 @@
 package DataLayer.Entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Author extends BaseEntity{
     private String firstName;
     private String lastName;
     private List<LibraryBook> libraryBooks;
+
+    public Author() {
+        libraryBooks = new ArrayList<>();
+    }
 
     public String getFirstName() {
         return firstName;

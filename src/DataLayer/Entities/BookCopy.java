@@ -1,5 +1,6 @@
 package DataLayer.Entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BookCopy extends BaseEntity {
@@ -8,6 +9,11 @@ public class BookCopy extends BaseEntity {
     private LibraryBook libraryBook;
 
     private List<LibraryRental> libraryRentals;
+
+    public BookCopy()
+    {
+        libraryRentals = new ArrayList<>();
+    }
 
     public Integer getLibraryBookId() {
         return libraryBookId;
