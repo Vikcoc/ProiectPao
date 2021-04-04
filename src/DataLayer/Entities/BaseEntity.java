@@ -1,7 +1,7 @@
 package DataLayer.Entities;
 
 public abstract class BaseEntity {
-    private Integer id;
+    protected Integer id;
 
     public Integer getId() {
         return id;
