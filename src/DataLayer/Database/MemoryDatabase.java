@@ -27,12 +27,12 @@ public class MemoryDatabase {
     }
 
     private MemoryDatabase(){
-        authors = new MemoryDbSet<>();
-        bookCopies = new MemoryDbSet<>();
-        libraryBooks = new MemoryDbSet<>();
-        libraryClients = new MemoryDbSet<>();
-        libraryRentals = new MemoryDbSet<>();
-        sections = new MemoryDbSet<>();
+        authors = new MemoryDbSet<>(Author.class);
+        bookCopies = new MemoryDbSet<>(BookCopy.class);
+        libraryBooks = new MemoryDbSet<>(LibraryBook.class);
+        libraryClients = new MemoryDbSet<>(LibraryClient.class);
+        libraryRentals = new MemoryDbSet<>(LibraryRental.class);
+        sections = new MemoryDbSet<>(Section.class);
     }
 
     public void seed()
