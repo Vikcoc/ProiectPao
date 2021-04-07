@@ -50,16 +50,11 @@ public class MemoryDbSet<T extends BaseEntity> extends Desperation<T>{
     public void remove(T entity){
         entities.remove(entity);
     }
-//    @Override
-//    public String toString() {
-//        Field stringListField = null;
-//        try {
-//            stringListField = this.getClass().getDeclaredField("entities");
-//        } catch (NoSuchFieldException e) {
-//            //nothing
-//        }
-//        ParameterizedType stringListType = (ParameterizedType) stringListField.getGenericType();
-//        var stringListClass = /*(Class<?>)*/ stringListType.getActualTypeArguments()[0];
-//        return "MemoryDbSet of type " + stringListClass;
-//    }
+
+    public T getById(Integer id){
+        var aux = entities.stream().filter(aut -> aut.getId() == id).findFirst();
+        if (aux.isPresent())
+            return aux.get();
+        return null;
+    }
 }
