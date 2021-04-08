@@ -86,7 +86,7 @@ public class MemoryAuthorRepository extends MemoryBaseRepository<Author> impleme
 
         var mem = memoryDatabase.getAuthors().getEntities();
 
-        var aux = mem.stream().filter(aut -> aut.getId() == id).findFirst();
+        var aux = mem.stream().filter(aut -> aut.getId() != null && aut.getId() == id).findFirst();
         if(aux.isPresent()){
             var aux3 = memoryUnitOfWork.addToTracking(Arrays.asList(new BaseEntity[]{aux.get()}));
             return Optional.of((Author) aux3.stream().findFirst().get());

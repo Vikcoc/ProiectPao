@@ -240,8 +240,11 @@ public class MemoryUnitOfWork implements UnitOfWork {
         var inserting = tracker.stream()
                 .filter(tp -> tp.getRight() == null)
                 .collect(Collectors.toList());
-        inserting.forEach(tp -> tp.setRight(deepCopy(tp.getLeft())));
-        inserting.forEach(tp -> add(tp.getRight()));
+        inserting.forEach(tp -> {
+            tp.setRight(deepCopy(tp.getLeft()));
+            add(tp.getRight());
+            moveOver(tp.getRight(), tp.getLeft());
+        });
 
         var deleting = tracker.stream()
                 .filter(tp -> tp.getLeft() == null)

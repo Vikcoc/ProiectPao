@@ -1,5 +1,6 @@
 import DataLayer.Database.MemoryDatabase;
 import DataLayer.Database.MemoryDbSet;
+import DataLayer.Entities.Author;
 import DataLayer.Entities.BaseEntity;
 import DataLayer.Entities.Section;
 import DataLayer.Repositories.Interfaces.UnitOfWork;
@@ -11,6 +12,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public class Main {
     public static void main(String[] args) {
@@ -58,6 +60,23 @@ public class Main {
             UnitOfWork uo5 = new MemoryUnitOfWork(db);
             var an5 = uo5.authorRepository().getById(1);
             System.out.println(an5);
+
+            var an6 = new Author();
+            an6.setFirstName("Brabus");
+            an6.setLastName("Mercedesa");
+
+            uo5.authorRepository().insert(an6);
+
+            System.out.println(an6);
+
+            uo5.saveChanges();
+
+            System.out.println(an6);
+
+            UnitOfWork uo7 = new MemoryUnitOfWork(db);
+            var an7 = uo7.authorRepository().getById(3);
+            System.out.println(an7);
+//            System.out.println(db.getAuthors().getEntities());
 
         }
 
