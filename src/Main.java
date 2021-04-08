@@ -75,8 +75,9 @@ public class Main {
 
             UnitOfWork uo7 = new MemoryUnitOfWork(db);
             var an7 = uo7.authorRepository().getById(3);
-            System.out.println(an7);
-//            System.out.println(db.getAuthors().getEntities());
+//            System.out.println(an7);
+            System.out.println(db.getAuthors().getEntities());
+            System.out.println(db.getLibraryBooks().getEntities());
 
         }
 

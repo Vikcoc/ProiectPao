@@ -218,15 +218,32 @@ public class MemoryUnitOfWork implements UnitOfWork {
                         ent = objFields.stream()
                                 .filter(fd -> ((ParameterizedType) fd.getGenericType()).getActualTypeArguments()[0] == entity.getClass())
                                 .findFirst();
-                        var fd = ent.get();
-                        fd.setAccessible(true);
-                        var list = (List) fd.get(obj);
-                        list.remove(entity);
+                        if(ent.isPresent()){
+                            var fd = ent.get();
+                            fd.setAccessible(true);
+                            var list = (List) fd.get(obj);
+                            list.remove(entity);
+                        }
                     }
 
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
+                continue;
+            }
+
+            try {
+                field.setAccessible(true);
+                var value = field.get(entity);
+                if(value instanceof List<?>)
+                {
+                    var f = (Class<?>) ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
+                    if(BaseEntity.class.isAssignableFrom(f)){
+                        ((List<BaseEntity>) value).forEach(this::delete);
+                    }
+                }
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
             }
         }
 
