@@ -27,7 +27,37 @@ public class Main {
         System.out.println(au.getById(2));
         System.out.println(au.getMostRented());
 
-        poc(db);
+//        poc(db);
+        actAsService(db);
+
+        }
+
+        private static void actAsService(MemoryDatabase db){
+            UnitOfWork uo1 = new MemoryUnitOfWork(db);
+            UnitOfWork uo2 = new MemoryUnitOfWork(db);
+
+            var an = uo1.authorRepository().getById(1).get();
+            an.setLastName("SS");
+            System.out.println(an);
+
+            var an2 = uo1.authorRepository().getById(1).get();
+            System.out.println(an2);
+
+            var an3 = uo2.authorRepository().getById(1).get();
+            System.out.println(an3);
+
+            uo1.saveChanges();
+
+            UnitOfWork uo3 = new MemoryUnitOfWork(db);
+            var an4 = uo3.authorRepository().getById(1).get();
+            System.out.println(an4);
+            uo3.authorRepository().delete(an4);
+
+            uo3.saveChanges();
+
+            UnitOfWork uo5 = new MemoryUnitOfWork(db);
+            var an5 = uo5.authorRepository().getById(1);
+            System.out.println(an5);
 
         }
 

@@ -56,8 +56,9 @@ public class MemoryUnitOfWork implements UnitOfWork {
 
         this.tracker.addAll(add);
 
-        return entities.stream()
-                .map(MemoryUnitOfWork::deepCopy)
+        return tracker.stream()
+                .filter(tp -> entities.contains(tp.getRight()) && tp.getLeft() != null)
+                .map(tp -> tp.getLeft())
                 .collect(Collectors.toList());
 
     }
@@ -65,7 +66,7 @@ public class MemoryUnitOfWork implements UnitOfWork {
     void deleteEntities(List<BaseEntity> entities){
 
         this.tracker.forEach(tp -> {
-                    if (entities.contains(tp.getRight()))
+                    if (entities.contains(tp.getLeft()))
                         tp.setLeft(null);
                 });
 
@@ -158,8 +159,6 @@ public class MemoryUnitOfWork implements UnitOfWork {
 
     private void makeConnections(BaseEntity entity)
     {
-
-
         var fields = getAllFields(new ArrayList<>(), entity.getClass());
         for (var field : fields){
             if(!field.getName().equals("Id") && field.getName().contains("Id")){
@@ -182,11 +181,6 @@ public class MemoryUnitOfWork implements UnitOfWork {
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
-                continue;
-            }
-
-            if(List.class.isAssignableFrom(field.getType())){
-
             }
         }
     }
@@ -198,7 +192,50 @@ public class MemoryUnitOfWork implements UnitOfWork {
         dbSet.insert(entity);
     }
 
-    public Integer saveChanges(){
+    private void delete(BaseEntity entity){
+        var fields = getAllFields(new ArrayList<>(), entity.getClass());
+        for (var field : fields) {
+            if (!field.getName().equals("Id") && field.getName().contains("Id")) {
+
+                var name = field.getName().substring(0, field.getName().indexOf("Id"));
+                var fld = (fields.stream().filter(fd -> fd.getName().equals(name)).findFirst()).get();
+                try {
+                    fld.setAccessible(true);
+                    var obj = fld.get(entity);
+
+                    var objFields = Arrays.asList(obj.getClass().getFields());
+
+                    var ent = objFields.stream()
+                            .filter(fd -> fd.getType() == entity.getClass())
+                            .findFirst();
+
+                    if(ent.isPresent()){
+                        var fd = ent.get();
+                        fd.setAccessible(true);
+                        fd.set(obj, null);
+                    }
+                    else{
+                        ent = objFields.stream()
+                                .filter(fd -> ((ParameterizedType) fd.getGenericType()).getActualTypeArguments()[0] == entity.getClass())
+                                .findFirst();
+                        var fd = ent.get();
+                        fd.setAccessible(true);
+                        var list = (List) fd.get(obj);
+                        list.remove(entity);
+                    }
+
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        var dbSet = databaseSets.stream().filter(st -> st.getClassOfT() == entity.getClass())
+                .findFirst().get();
+        dbSet.remove(entity);
+    }
+
+    public void saveChanges(){
 
         var inserting = tracker.stream()
                 .filter(tp -> tp.getRight() == null)
@@ -206,9 +243,13 @@ public class MemoryUnitOfWork implements UnitOfWork {
         inserting.forEach(tp -> tp.setRight(deepCopy(tp.getLeft())));
         inserting.forEach(tp -> add(tp.getRight()));
 
-        //and what do we do with delete?
-        //maybe we don't delete?
-        //or we do cascade delete recursively
+        var deleting = tracker.stream()
+                .filter(tp -> tp.getLeft() == null)
+                .collect(Collectors.toList());
+        deleting.forEach(tp -> delete(tp.getRight()));
+
+        tracker.remove(deleting);
+
 
         for(var x : this.tracker){
             var st = x.getLeft();
@@ -218,7 +259,6 @@ public class MemoryUnitOfWork implements UnitOfWork {
                 makeConnections(dr);
             }
         }
-        return 0;
     }
 
     @Override
