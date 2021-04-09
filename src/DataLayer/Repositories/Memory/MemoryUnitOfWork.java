@@ -4,6 +4,7 @@ import DataLayer.Database.MemoryDatabase;
 import DataLayer.Database.MemoryDbSet;
 import DataLayer.Entities.BaseEntity;
 import DataLayer.Repositories.Interfaces.AuthorRepository;
+import DataLayer.Repositories.Interfaces.BookRepository;
 import DataLayer.Repositories.Interfaces.UnitOfWork;
 import DataLayer.Tuple;
 
@@ -18,11 +19,13 @@ import java.util.stream.Collectors;
 public class MemoryUnitOfWork implements UnitOfWork {
     private List<Tuple<BaseEntity,BaseEntity>> tracker;
     private final AuthorRepository authorRepository;
+    private final BookRepository bookRepository;
     private final MemoryDatabase memoryDatabase;
     private final List<MemoryDbSet> databaseSets;
 
     public MemoryUnitOfWork(MemoryDatabase memoryDatabase) {
         this.authorRepository = new MemoryAuthorRepository(memoryDatabase, this);
+        this.bookRepository = new MemoryBookRepository(memoryDatabase, this);
         this.memoryDatabase = memoryDatabase;
         this.tracker = new ArrayList<>();
 
@@ -284,5 +287,10 @@ public class MemoryUnitOfWork implements UnitOfWork {
     @Override
     public AuthorRepository authorRepository() {
         return authorRepository;
+    }
+
+    @Override
+    public BookRepository bookRepository() {
+        return bookRepository;
     }
 }

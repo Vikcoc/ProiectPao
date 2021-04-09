@@ -6,7 +6,9 @@ import DataLayer.Entities.Section;
 import DataLayer.Repositories.Interfaces.UnitOfWork;
 import DataLayer.Repositories.Memory.MemoryUnitOfWork;
 import Services.Classes.AuthorServiceImpl;
+import Services.Classes.BookServiceImpl;
 import Services.Interfaces.AuthorService;
+import Services.Interfaces.BookService;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -29,8 +31,19 @@ public class Main {
         System.out.println(au.getById(2));
         System.out.println(au.getMostRented());
 
+        BookService bookService = new BookServiceImpl(uo);
+
+        System.out.println(bookService.getAvailableTitles());
+
+//        System.out.println("here2");
+//        var f = db.getClass().getDeclaredFields();
+//        for (var fd : f){
+////            System.out.println(f);
+//            System.out.println(Arrays.toString(((ParameterizedType) fd.getGenericType()).getActualTypeArguments()));
+//        }
+
 //        poc(db);
-        actAsService(db);
+//        actAsService(db);
 
         }
 
