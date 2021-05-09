@@ -23,6 +23,10 @@ public class MemoryUnitOfWork implements UnitOfWork {
     private final MemoryDatabase memoryDatabase;
     private final List<MemoryDbSet> databaseSets;
 
+    public List<MemoryDbSet> getDatabaseSets() {
+        return databaseSets;
+    }
+
     public MemoryUnitOfWork(MemoryDatabase memoryDatabase) {
         this.authorRepository = new MemoryAuthorRepository(memoryDatabase, this);
         this.bookRepository = new MemoryBookRepository(memoryDatabase, this);

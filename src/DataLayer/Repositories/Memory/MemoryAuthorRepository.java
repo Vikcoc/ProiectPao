@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 public class MemoryAuthorRepository extends MemoryBaseRepository<Author> implements AuthorRepository {
     public MemoryAuthorRepository(MemoryDatabase memoryDatabase, MemoryUnitOfWork memoryUnitOfWork) {
-        super(memoryDatabase, memoryUnitOfWork);
+        super(Author.class, memoryDatabase, memoryUnitOfWork);
     }
 
     @Override
@@ -79,27 +79,5 @@ public class MemoryAuthorRepository extends MemoryBaseRepository<Author> impleme
 
 
         return Optional.empty();
-    }
-
-    @Override
-    public Optional<Author> getById(int id) {
-
-        var mem = memoryDatabase.getAuthors().getEntities();
-
-        var aux = mem.stream().filter(aut -> aut.getId() != null && aut.getId() == id).findFirst();
-        if(aux.isPresent()){
-            var aux3 = memoryUnitOfWork.addToTracking(Arrays.asList(new BaseEntity[]{aux.get()}));
-            return Optional.of((Author) aux3.stream().findFirst().get());
-        }
-
-        return aux;
-    }
-
-    @Override
-    public List<Author> getAll() {
-        var mem = memoryDatabase.getAuthors().getEntities();
-        return memoryUnitOfWork.addToTracking(mem.stream().map(x -> (BaseEntity)x).collect(Collectors.toList()))
-                .stream().map(x -> (Author) x).collect(Collectors.toList());
-
     }
 }
