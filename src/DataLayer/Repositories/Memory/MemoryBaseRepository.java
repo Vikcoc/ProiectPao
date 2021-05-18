@@ -1,9 +1,7 @@
 package DataLayer.Repositories.Memory;
 
 import DataLayer.Database.MemoryDatabase;
-import DataLayer.Entities.Author;
 import DataLayer.Entities.BaseEntity;
-import DataLayer.Entities.LibraryBook;
 import DataLayer.Repositories.Interfaces.BaseRepository;
 
 import java.util.Arrays;
@@ -15,7 +13,7 @@ public abstract class MemoryBaseRepository<T extends BaseEntity> implements Base
 
     protected final MemoryDatabase memoryDatabase;
     protected final MemoryUnitOfWork memoryUnitOfWork;
-    private Class classOfT;
+    private final Class classOfT;
 
     public MemoryBaseRepository(Class classOfT, MemoryDatabase memoryDatabase, MemoryUnitOfWork memoryUnitOfWork) {
         this.classOfT = classOfT;

@@ -3,9 +3,7 @@ package DataLayer.Repositories.Memory;
 import DataLayer.Database.MemoryDatabase;
 import DataLayer.Database.MemoryDbSet;
 import DataLayer.Entities.BaseEntity;
-import DataLayer.Repositories.Interfaces.AuthorRepository;
-import DataLayer.Repositories.Interfaces.BookRepository;
-import DataLayer.Repositories.Interfaces.UnitOfWork;
+import DataLayer.Repositories.Interfaces.*;
 import DataLayer.Tuple;
 
 import java.lang.reflect.Field;
@@ -20,7 +18,12 @@ public class MemoryUnitOfWork implements UnitOfWork {
     private List<Tuple<BaseEntity,BaseEntity>> tracker;
     private final AuthorRepository authorRepository;
     private final BookRepository bookRepository;
+    private final ClientRepository clientRepository;
+    private final EventRepository eventRepository;
     private final MemoryDatabase memoryDatabase;
+    private final RentalRepository rentalRepository;
+    private final BookCopyRepository bookCopyRepository;
+    private final ParticipationRepository participationRepository;
     private final List<MemoryDbSet> databaseSets;
 
     public List<MemoryDbSet> getDatabaseSets() {
@@ -30,6 +33,11 @@ public class MemoryUnitOfWork implements UnitOfWork {
     public MemoryUnitOfWork(MemoryDatabase memoryDatabase) {
         this.authorRepository = new MemoryAuthorRepository(memoryDatabase, this);
         this.bookRepository = new MemoryBookRepository(memoryDatabase, this);
+        this.clientRepository = new MemoryClientRepository(memoryDatabase, this);
+        this.eventRepository = new MemoryEventRepository(memoryDatabase, this);
+        this.rentalRepository = new MemoryRentalRepository(memoryDatabase, this);
+        this.bookCopyRepository = new MemoryBookCopyRepository(memoryDatabase, this);
+        this.participationRepository = new MemoryParticipationRepository(memoryDatabase, this);
         this.memoryDatabase = memoryDatabase;
         this.tracker = new ArrayList<>();
 
@@ -296,5 +304,30 @@ public class MemoryUnitOfWork implements UnitOfWork {
     @Override
     public BookRepository bookRepository() {
         return bookRepository;
+    }
+
+    @Override
+    public ClientRepository clientRepository() {
+        return clientRepository;
+    }
+
+    @Override
+    public EventRepository eventRepository() {
+        return eventRepository;
+    }
+
+    @Override
+    public RentalRepository rentalRepository() {
+        return rentalRepository;
+    }
+
+    @Override
+    public BookCopyRepository bookCopyRepository() {
+        return bookCopyRepository;
+    }
+
+    @Override
+    public ParticipationRepository participationRepository() {
+        return participationRepository;
     }
 }

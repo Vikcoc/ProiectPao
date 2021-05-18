@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface BookRepository extends BaseRepository<LibraryBook>{
     List<LibraryBook> getWithAuthor();
+
+    List<LibraryBook> getBySectionName(String sectionName);
 }

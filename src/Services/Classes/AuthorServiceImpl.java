@@ -23,4 +23,11 @@ public class AuthorServiceImpl implements AuthorService {
     public Optional<Author> getMostRented() {
         return unitOfWork.authorRepository().getMostRented();
     }
+
+    @Override
+    public Boolean insert(Author author) {
+        unitOfWork.authorRepository().insert(author);
+        unitOfWork.saveChanges();
+        return true;
+    }
 }

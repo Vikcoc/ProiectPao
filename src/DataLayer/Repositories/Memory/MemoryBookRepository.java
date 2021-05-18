@@ -36,4 +36,13 @@ public class MemoryBookRepository extends MemoryBaseRepository<LibraryBook> impl
 
         return books;
     }
+
+    @Override
+    public List<LibraryBook> getBySectionName(String sectionName) {
+        var mem = memoryDatabase.getLibraryBooks().getEntities().stream().filter(x -> x.getSection().getName() == sectionName).collect(Collectors.toList());
+
+        var books = memoryUnitOfWork.addToTracking(mem.stream().map(x -> (BaseEntity)x).collect(Collectors.toList()))
+                .stream().map(x -> (LibraryBook) x).collect(Collectors.toList());
+        return books;
+    }
 }

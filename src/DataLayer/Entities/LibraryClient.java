@@ -8,6 +8,8 @@ public class LibraryClient extends BaseEntity{
     private String lastName;
 
     private List<LibraryRental> libraryRentals;
+    private List<EventParticipation> eventParticipations;
+
 
     public LibraryClient() {
         libraryRentals = new ArrayList<>();
@@ -35,6 +37,14 @@ public class LibraryClient extends BaseEntity{
 
     public void setLibraryRentals(List<LibraryRental> libraryRentals) {
         this.libraryRentals = libraryRentals;
+    }
+
+    public List<EventParticipation> getEventParticipations() {
+        return eventParticipations;
+    }
+
+    public void setEventParticipations(List<EventParticipation> eventParticipations) {
+        this.eventParticipations = eventParticipations;
     }
 
     @Override

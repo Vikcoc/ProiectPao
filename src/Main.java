@@ -23,19 +23,19 @@ public class Main {
         var db = MemoryDatabase.getInstance();
         db.seed();
 
-        UnitOfWork uo = new MemoryUnitOfWork(db);
+//        UnitOfWork uo = new MemoryUnitOfWork(db);
+//
+//        AuthorService au = new AuthorServiceImpl(uo);
+//
+//        System.out.println(au.getById(1));
+//        System.out.println(au.getById(2));
+//        System.out.println(au.getMostRented());
+//
+//        BookService bookService = new BookServiceImpl(uo);
+//
+//        System.out.println(bookService.getAvailableTitles());
 
-        AuthorService au = new AuthorServiceImpl(uo);
-
-        System.out.println(au.getById(1));
-        System.out.println(au.getById(2));
-        System.out.println(au.getMostRented());
-
-        BookService bookService = new BookServiceImpl(uo);
-
-        System.out.println(bookService.getAvailableTitles());
-
-//        System.out.println("here2");
+        System.out.println("here2");
 //        var f = db.getClass().getDeclaredFields();
 //        for (var fd : f){
 ////            System.out.println(f);
@@ -43,7 +43,7 @@ public class Main {
 //        }
 
 //        poc(db);
-//        actAsService(db);
+        actAsService(db);
 
         }
 

@@ -14,6 +14,8 @@ public class MemoryDatabase {
     private MemoryDbSet<LibraryClient> libraryClients;
     private MemoryDbSet<LibraryRental> libraryRentals;
     private MemoryDbSet<Section> sections;
+    private MemoryDbSet<LibraryEvent> libraryEvents;
+    private MemoryDbSet<EventParticipation> eventParticipations;
 
     private static MemoryDatabase memoryDatabase = null;
 
@@ -33,6 +35,8 @@ public class MemoryDatabase {
         libraryClients = new MemoryDbSet<>(LibraryClient.class);
         libraryRentals = new MemoryDbSet<>(LibraryRental.class);
         sections = new MemoryDbSet<>(Section.class);
+        libraryEvents = new MemoryDbSet<>(LibraryEvent.class);
+        eventParticipations = new MemoryDbSet<>(EventParticipation.class);
     }
 
     public void seed()
@@ -199,5 +203,21 @@ public class MemoryDatabase {
 
     public void setSections(MemoryDbSet<Section> sections) {
         this.sections = sections;
+    }
+
+    public MemoryDbSet<LibraryEvent> getLibraryEvents() {
+        return libraryEvents;
+    }
+
+    public void setLibraryEvents(MemoryDbSet<LibraryEvent> libraryEvents) {
+        this.libraryEvents = libraryEvents;
+    }
+
+    public MemoryDbSet<EventParticipation> getEventParticipations() {
+        return eventParticipations;
+    }
+
+    public void setEventParticipations(MemoryDbSet<EventParticipation> eventParticipations) {
+        this.eventParticipations = eventParticipations;
     }
 }
