@@ -5,10 +5,7 @@ import DataLayer.Entities.LibraryClient;
 import DataLayer.Entities.LibraryEvent;
 import DataLayer.Repositories.Interfaces.UnitOfWork;
 import DataLayer.Repositories.Memory.MemoryUnitOfWork;
-import Services.Classes.AuthorServiceImpl;
-import Services.Classes.BookServiceImpl;
-import Services.Classes.ClientServiceImpl;
-import Services.Classes.EventServiceImpl;
+import Services.Classes.*;
 import Services.Interfaces.AuthorService;
 import Services.Interfaces.BookService;
 import Services.Interfaces.ClientService;
@@ -27,6 +24,8 @@ public class Main {
         UnitOfWork uow = new MemoryUnitOfWork(db);
 
         Scanner scanner = new Scanner(System.in);
+
+        var report = ReportServiceImpl.getInstance();
 
         while (true){
             System.out.println("\n# Bine a-ti venit: #");
@@ -50,17 +49,17 @@ public class Main {
 //            System.out.flush();
 
             switch (option){
-                case "0": System.exit(0);
-                case "1": case1(uow); break;
-                case "2": case2(uow); break;
-                case "3": case3(uow, scanner); break;
-                case "4": case4(uow, scanner); break;
-                case "5": case5(uow, scanner); break;
-                case "6": case6(uow, scanner); break;
-                case "7": case7(uow, scanner); break;
-                case "8": case8(uow, scanner); break;
-                case "9": case9(uow, scanner); break;
-                case "10": case10(uow, scanner); break;
+                case "0": report.Log("exit"); System.exit(0);
+                case "1": case1(uow); report.Log("most_rented"); break;
+                case "2": case2(uow); report.Log("books_with_author"); break;
+                case "3": case3(uow, scanner); report.Log("books_by_section"); break;
+                case "4": case4(uow, scanner); report.Log("add_author"); break;
+                case "5": case5(uow, scanner); report.Log("add_book"); break;
+                case "6": case6(uow, scanner); report.Log("add_user"); break;
+                case "7": case7(uow, scanner); report.Log("rent_book"); break;
+                case "8": case8(uow, scanner); report.Log("return_book"); break;
+                case "9": case9(uow, scanner); report.Log("add_event"); break;
+                case "10": case10(uow, scanner); report.Log("participate_in_envent"); break;
 
                 default:
                     System.out.println("Invalid option!");
