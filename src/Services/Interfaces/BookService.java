@@ -9,6 +9,6 @@ public interface BookService {
     Optional<LibraryBook> getById(int id);
     List<String> getAvailableTitles();
     List<LibraryBook> getAll();
-    List<LibraryBook> getBySerctionName(String name);
-    Boolean insert(LibraryBook book, Integer authorId, Integer sectionId);
+    List<LibraryBook> getBySectionName(String name);
+    Boolean insert(LibraryBook book);
 }

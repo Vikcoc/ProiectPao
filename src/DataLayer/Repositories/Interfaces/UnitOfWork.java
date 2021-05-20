@@ -8,5 +8,6 @@ public interface UnitOfWork {
     RentalRepository rentalRepository();
     BookCopyRepository bookCopyRepository();
     ParticipationRepository participationRepository();
+    SectionRepository sectionRepository();
     void saveChanges();
 }

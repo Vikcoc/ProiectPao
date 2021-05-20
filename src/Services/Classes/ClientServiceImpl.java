@@ -29,13 +29,14 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Optional<BookCopy> rentBook(LibraryClient client, Integer bookId) {
+    public Optional<BookCopy> rentBook(Integer clientId, Integer bookId) {
         var book = unitOfWork.bookCopyRepository().getNotRented(bookId);
+        var client = unitOfWork.clientRepository().getById(clientId);
 
-        if (book.isPresent()){
+        if (book.isPresent() && client.isPresent()){
             var rental = new LibraryRental();
             rental.setBookCopyId(book.get().getId());
-            rental.setLibraryClientId(client.getId());
+            rental.setLibraryClientId(client.get().getId());
             unitOfWork.rentalRepository().insert(rental);
             unitOfWork.saveChanges();
             return book;
@@ -44,8 +45,11 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Boolean returnBook(BookCopy book) {
-        var rental = unitOfWork.rentalRepository().getByBookCopyId(book.getId());
+    public Boolean returnBook(Integer bookId) {
+        var rental = unitOfWork.rentalRepository().getByBookCopyId(bookId);
+
+        if(rental.isEmpty())
+            return false;
 
         for (var rnt : rental) {
             unitOfWork.rentalRepository().delete(rnt);

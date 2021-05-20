@@ -6,5 +6,5 @@ import DataLayer.Repositories.Interfaces.BaseRepository;
 
 public interface EventService{
     Boolean insert(LibraryEvent event);
-    Boolean participate(LibraryClient client, LibraryEvent event);
+    Boolean participate(Integer clientId, Integer eventId);
 }

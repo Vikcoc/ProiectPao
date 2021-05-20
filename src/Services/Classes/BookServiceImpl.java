@@ -35,17 +35,22 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<LibraryBook> getBySerctionName(String name) {
+    public List<LibraryBook> getBySectionName(String name) {
 
         return unitOfWork.bookRepository().getBySectionName(name);
     }
 
     @Override
-    public Boolean insert(LibraryBook book, Integer authorId, Integer sectionId) {
-        book.setAuthorId(authorId);
-        book.setSectionId(sectionId);
-        unitOfWork.bookRepository().insert(book);
-        unitOfWork.saveChanges();
-        return true;
+    public Boolean insert(LibraryBook book) {
+
+        var author = unitOfWork.authorRepository().getById(book.getAuthorId());
+        var section = unitOfWork.sectionRepository().getById(book.getSectionId());
+
+        if(author.isPresent() && section.isPresent()) {
+            unitOfWork.bookRepository().insert(book);
+            unitOfWork.saveChanges();
+            return true;
+        }
+        return false;
     }
 }

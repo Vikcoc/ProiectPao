@@ -22,12 +22,20 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public Boolean participate(LibraryClient client, LibraryEvent event) {
-        var participation = new EventParticipation();
-        participation.setLibraryClientId(client.getId());
-        participation.setLibraryEventId(event.getId());
-        unitOfWork.participationRepository().insert(participation);
-        unitOfWork.saveChanges();
-        return true;
+    public Boolean participate(Integer clientId, Integer eventId) {
+
+        var client = unitOfWork.clientRepository().getById(clientId);
+        var event = unitOfWork.eventRepository().getById(eventId);
+
+        if(client.isPresent() && event.isPresent()) {
+
+            var participation = new EventParticipation();
+            participation.setLibraryClientId(client.get().getId());
+            participation.setLibraryEventId(event.get().getId());
+            unitOfWork.participationRepository().insert(participation);
+            unitOfWork.saveChanges();
+            return true;
+        }
+        return false;
     }
 }

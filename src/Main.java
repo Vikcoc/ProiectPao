@@ -15,6 +15,7 @@ import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
@@ -22,6 +23,8 @@ public class Main {
 
         var db = MemoryDatabase.getInstance();
         db.seed();
+
+//        Scanner scanner = new Scanner(System.in);
 
 //        UnitOfWork uo = new MemoryUnitOfWork(db);
 //

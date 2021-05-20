@@ -24,6 +24,7 @@ public class MemoryUnitOfWork implements UnitOfWork {
     private final RentalRepository rentalRepository;
     private final BookCopyRepository bookCopyRepository;
     private final ParticipationRepository participationRepository;
+    private final SectionRepository sectionRepository;
     private final List<MemoryDbSet> databaseSets;
 
     public List<MemoryDbSet> getDatabaseSets() {
@@ -38,6 +39,7 @@ public class MemoryUnitOfWork implements UnitOfWork {
         this.rentalRepository = new MemoryRentalRepository(memoryDatabase, this);
         this.bookCopyRepository = new MemoryBookCopyRepository(memoryDatabase, this);
         this.participationRepository = new MemoryParticipationRepository(memoryDatabase, this);
+        this.sectionRepository = new MemorySectionRepository(memoryDatabase, this);
         this.memoryDatabase = memoryDatabase;
         this.tracker = new ArrayList<>();
 
@@ -329,5 +331,10 @@ public class MemoryUnitOfWork implements UnitOfWork {
     @Override
     public ParticipationRepository participationRepository() {
         return participationRepository;
+    }
+
+    @Override
+    public SectionRepository sectionRepository() {
+        return sectionRepository;
     }
 }
