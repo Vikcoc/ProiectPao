@@ -3,10 +3,13 @@ package DataLayer.Repositories.Memory;
 import DataLayer.Database.MemoryDatabase;
 import DataLayer.Database.MemoryDbSet;
 import DataLayer.Entities.BaseEntity;
+import DataLayer.Entities.LibraryBook;
 import DataLayer.Repositories.Interfaces.*;
 import DataLayer.Tuple;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -163,7 +166,11 @@ public class MemoryUnitOfWork implements UnitOfWork {
                 {
                     var f = (Class<?>) ((ParameterizedType) field.getGenericType()).getActualTypeArguments()[0];
                     if(f == entity.getClass()){
-                        ((List) value).add(entity);
+//                        Method add = ArrayList.class.getDeclaredMethod("add",Object.class);
+//                        System.out.println(value.getClass());
+//                        System.out.println((new ArrayList<>()).getClass());
+//                        add.invoke(value, entity);
+                        ((ArrayList) value).add(entity);
                     }
                 }
 
@@ -189,10 +196,12 @@ public class MemoryUnitOfWork implements UnitOfWork {
                         .findFirst().get();
 
                 try {
+                    field.setAccessible(true);
                     var obj = dbThing.getById((Integer) field.get(entity));
 
                     addToAnotherEntity(entity, obj);
 
+                    fld.setAccessible(true);
                     fld.set(entity,obj);
 
                 } catch (IllegalAccessException e) {

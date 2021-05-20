@@ -21,7 +21,7 @@ The application tries to use interfaces for the data layer to make seemless the 
     Using a database,
 
 Actions: 
-get authors, 
+get most rented author, 
 get books with authors, 
 get book by section, 
 add author, 

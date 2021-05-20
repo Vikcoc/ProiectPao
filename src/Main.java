@@ -1,21 +1,21 @@
 import DataLayer.Database.MemoryDatabase;
-import DataLayer.Database.MemoryDbSet;
 import DataLayer.Entities.Author;
-import DataLayer.Entities.BaseEntity;
-import DataLayer.Entities.Section;
+import DataLayer.Entities.LibraryBook;
+import DataLayer.Entities.LibraryClient;
+import DataLayer.Entities.LibraryEvent;
 import DataLayer.Repositories.Interfaces.UnitOfWork;
 import DataLayer.Repositories.Memory.MemoryUnitOfWork;
 import Services.Classes.AuthorServiceImpl;
 import Services.Classes.BookServiceImpl;
+import Services.Classes.ClientServiceImpl;
+import Services.Classes.EventServiceImpl;
 import Services.Interfaces.AuthorService;
 import Services.Interfaces.BookService;
+import Services.Interfaces.ClientService;
+import Services.Interfaces.EventService;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
 import java.util.Scanner;
+
 
 public class Main {
     public static void main(String[] args) {
@@ -24,141 +24,196 @@ public class Main {
         var db = MemoryDatabase.getInstance();
         db.seed();
 
-//        Scanner scanner = new Scanner(System.in);
+        UnitOfWork uow = new MemoryUnitOfWork(db);
 
-//        UnitOfWork uo = new MemoryUnitOfWork(db);
-//
-//        AuthorService au = new AuthorServiceImpl(uo);
-//
-//        System.out.println(au.getById(1));
-//        System.out.println(au.getById(2));
-//        System.out.println(au.getMostRented());
-//
-//        BookService bookService = new BookServiceImpl(uo);
-//
-//        System.out.println(bookService.getAvailableTitles());
+        Scanner scanner = new Scanner(System.in);
 
-        System.out.println("here2");
-//        var f = db.getClass().getDeclaredFields();
-//        for (var fd : f){
-////            System.out.println(f);
-//            System.out.println(Arrays.toString(((ParameterizedType) fd.getGenericType()).getActualTypeArguments()));
-//        }
+        while (true){
+            System.out.println("\n# Bine a-ti venit: #");
+            System.out.println("# Aveti urmatoarele optiuni: #");
+            System.out.println("#  0: Iesire #");
+            System.out.println("#  1: Cel mai imprumutat autor #");
+            System.out.println("#  2: Listare carti cu autor #");
+            System.out.println("#  3: Listare carti pe baza sectiunii #");
+            System.out.println("#  4: Adaugare autor #");
+            System.out.println("#  5: Adaugare carte #");
+            System.out.println("#  6: Adaugare user #");
+            System.out.println("#  7: Imprumutare carte #");
+            System.out.println("#  8: Returnare carte #");
+            System.out.println("#  9: Creare eveniment #");
+            System.out.println("# 10: Participare la eveniment #");
 
-//        poc(db);
-        actAsService(db);
+            System.out.print("\n# Optiunea dumneavoastra este: ");
+            String option = scanner.nextLine();
 
+//            System.out.print("\033[H\033[2J");
+//            System.out.flush();
+
+            switch (option){
+                case "0": System.exit(0);
+                case "1": case1(uow); break;
+                case "2": case2(uow); break;
+                case "3": case3(uow, scanner); break;
+                case "4": case4(uow, scanner); break;
+                case "5": case5(uow, scanner); break;
+                case "6": case6(uow, scanner); break;
+                case "7": case7(uow, scanner); break;
+                case "8": case8(uow, scanner); break;
+                case "9": case9(uow, scanner); break;
+                case "10": case10(uow, scanner); break;
+
+                default:
+                    System.out.println("Invalid option!");
+                    break;
+            }
         }
+    }
 
-        private static void actAsService(MemoryDatabase db){
-            UnitOfWork uo1 = new MemoryUnitOfWork(db);
-            UnitOfWork uo2 = new MemoryUnitOfWork(db);
+    static void case1(UnitOfWork uow) {
+        AuthorService authorService = new AuthorServiceImpl(uow);
+        var author = authorService.getMostRented();
+        if (author.isPresent())
+            System.out.println(author.get());
+        else
+            System.out.println("Nu exista");
+    }
 
-            var an = uo1.authorRepository().getById(1).get();
-            an.setLastName("SS");
-            System.out.println(an);
+    static void case2(UnitOfWork uow){
+        BookService bookService = new BookServiceImpl(uow);
+        bookService.getAvailableTitles()
+                .stream()
+                .forEach(System.out::println);
+    }
 
-            var an2 = uo1.authorRepository().getById(1).get();
-            System.out.println(an2);
+    static void case3(UnitOfWork uow, Scanner scanner){
 
-            var an3 = uo2.authorRepository().getById(1).get();
-            System.out.println(an3);
+        System.out.println("Sectiunele disponibile sunt:");
+        uow.sectionRepository().getAll().stream().forEach(System.out::println);
 
-            uo1.saveChanges();
+        System.out.print("\nSectiunea pe care o vreti este: ");
+        var sectionName = scanner.nextLine();
 
-            UnitOfWork uo3 = new MemoryUnitOfWork(db);
-            var an4 = uo3.authorRepository().getById(1).get();
-            System.out.println(an4);
-            uo3.authorRepository().delete(an4);
+        BookService bookService = new BookServiceImpl(uow);
+        bookService.getBySectionName(sectionName)
+                .stream()
+                .forEach(System.out::println);
+    }
 
-            uo3.saveChanges();
+    static void case4(UnitOfWork uow, Scanner scanner){
+        System.out.println("Oferiti urmatoarele date:");
+        System.out.print("Nume de familie: ");
+        var lastname = scanner.nextLine();
+        System.out.print("Prenume: ");
+        var firstname = scanner.nextLine();
 
-            UnitOfWork uo5 = new MemoryUnitOfWork(db);
-            var an5 = uo5.authorRepository().getById(1);
-            System.out.println(an5);
+        var author = new Author();
+        author.setFirstName(firstname);
+        author.setLastName(lastname);
 
-            var an6 = new Author();
-            an6.setFirstName("Brabus");
-            an6.setLastName("Mercedesa");
+        AuthorService authorService = new AuthorServiceImpl(uow);
+        System.out.println(authorService.insert(author) ? "Successful" : "Failed");
+    }
 
-            uo5.authorRepository().insert(an6);
+    static void case5(UnitOfWork uow, Scanner scanner) {
+        System.out.println("Autorii sunt: ");
+        uow.authorRepository().getAll()
+            .stream()
+            .forEach(System.out::println);
 
-            System.out.println(an6);
+        System.out.print("Alegeti id-ul unui autor: ");
+        var author = Integer.parseInt(scanner.nextLine());
 
-            uo5.saveChanges();
+        System.out.println("Sectiunile sunt: ");
+        uow.sectionRepository().getAll()
+                .stream()
+                .forEach(System.out::println);
 
-            System.out.println(an6);
+        System.out.print("Alegeti id-ul unei sectiuni: ");
+        var section = Integer.parseInt(scanner.nextLine());
 
-            UnitOfWork uo7 = new MemoryUnitOfWork(db);
-            var an7 = uo7.authorRepository().getById(3);
-//            System.out.println(an7);
-            System.out.println(db.getAuthors().getEntities());
-            System.out.println(db.getLibraryBooks().getEntities());
+        System.out.print("Alegeti numele cartii: ");
+        var name = scanner.nextLine();
 
-        }
+        var libraryBook = new LibraryBook();
+        libraryBook.setSectionId(section);
+        libraryBook.setAuthorId(author);
+        libraryBook.setName(name);
 
-        private static void poc(MemoryDatabase db) {
-            var x =db.getClass().getDeclaredFields();//.stream().filter(tp -> MemoryDbSet<?>.class.isAssignableFrom(tp.getClass()));
+        BookService bookService = new BookServiceImpl(uow);
+        System.out.println(bookService.insert(libraryBook) ? "Successful" : "Failed");
+    }
 
-            var f = new Section();
-            f.setDescription("FF");
-            f.setName("Thingus");
-            f.setId(0);
-            for(var aux : x){
-                try {
-                    aux.setAccessible(true);
-                    var aux2 = aux.get(db);
-                    if((aux2.getClass()) == (MemoryDbSet.class)){
-                        var aux3 = (MemoryDbSet<BaseEntity>) aux2;
+    static void case6(UnitOfWork uow, Scanner scanner) {
+        System.out.println("Oferiti urmatoarele date:");
+        System.out.print("Nume de familie: ");
+        var lastname = scanner.nextLine();
+        System.out.print("Prenume: ");
+        var firstname = scanner.nextLine();
 
-//                    System.out.println(aux2.getClass().getGenericSuperclass());
-//                    System.out.println(((ParameterizedType) aux2.getClass().getGenericSuperclass())
-//                            .getActualTypeArguments()[0]);
-//                    var q = ((ParameterizedType) aux2.getClass().getGenericSuperclass())
-//                            .getActualTypeArguments()[0];
-//                    System.out.println(q == (Type) Section.class);
+        var client = new LibraryClient();
+        client.setFirstName(firstname);
+        client.setLastName(lastname);
 
+        ClientService clientService = new ClientServiceImpl(uow);
+        System.out.println(clientService.insert(client) ? "Successful" : "Failed");
+    }
 
-                        if(f.getClass() == aux3.getClassOfT()) {
-                            aux3.insert(f);
-                            System.out.println("Inserted");
-                        }
-                        System.out.println(aux3.getEntities());
+    static void case7(UnitOfWork uow, Scanner scanner) {
+        System.out.println("Userii sunt:");
+        uow.clientRepository().getAll().stream().forEach(System.out::println);
+        System.out.print("Alegeti id-ul unui user: ");
+        var userId = Integer.parseInt(scanner.nextLine());
 
-                        if(f.getClass() == aux3.getClassOfT()) {
-                            aux3.remove(f);
-                            System.out.println("Removed");
-                        }
+        System.out.println("Cartile sunt:");
+        uow.bookRepository().getAll().stream().forEach(System.out::println);
+        System.out.print("Alegeti id-ul unei carti: ");
+        var bookId = Integer.parseInt(scanner.nextLine());
 
-                        System.out.println(aux3.getEntities());
-                        // Write insert method and use it in try catch context?
-                        // because if i use wrong type it should crash
-                        // even though JAAVA DOESN'T LET ME GET IT'S TYPE
-//                    System.out.println(aux2);
-                    }
-                } catch (IllegalAccessException e) {
-                    System.out.println(e.getStackTrace());
-                }
-        }
+        ClientService clientService = new ClientServiceImpl(uow);
 
+        var book = clientService.rentBook(userId, bookId);
+        System.out.println(book.isPresent() ? book.get() : "Failed");
+    }
+
+    static void case8(UnitOfWork uow, Scanner scanner) {
+        System.out.println("Copiile sunt:");
+        uow.bookCopyRepository().getAll().stream().forEach(System.out::println);
+        System.out.print("Alegeti id-ul unei copii: ");
+        var bookId = Integer.parseInt(scanner.nextLine());
+
+        ClientService clientService = new ClientServiceImpl(uow);
+        System.out.println(clientService.returnBook(bookId) ? "Successful" : "Failed");
+    }
+
+    static void case9(UnitOfWork uow, Scanner scanner) {
+
+        var event = new LibraryEvent();
+        System.out.println("Oferiti urmatoarele date:");
+        System.out.print("Nume: ");
+        var name = scanner.nextLine();
+        System.out.print("Activitate: ");
+        var activity = scanner.nextLine();
+
+        event.setName(name);
+        event.setActivity(activity);
+
+        EventService eventService = new EventServiceImpl(uow);
+        System.out.println(eventService.insert(event) ? "Successful" : "Failed");
+    }
+
+    static void case10(UnitOfWork uow, Scanner scanner) {
+        System.out.println("Userii sunt:");
+        uow.clientRepository().getAll().stream().forEach(System.out::println);
+        System.out.print("Alegeti id-ul unui user: ");
+        var userId = Integer.parseInt(scanner.nextLine());
+
+        System.out.println("Evenimentele sunt:");
+        uow.eventRepository().getAll().stream().forEach(System.out::println);
+        System.out.print("Alegeti id-ul unui eveniment: ");
+        var eventId = Integer.parseInt(scanner.nextLine());
+
+        EventService eventService = new EventServiceImpl(uow);
+        System.out.println(eventService.participate(userId, eventId) ? "Successful" : "Failed");
     }
 }
-
-class Thing{
-    private Integer number;
-
-    public Thing(Integer number) {
-        this.number = number;
-    }
-}
-
-class Eh extends Thing{
-    private Integer fur;
-
-    public Eh(Integer number, Integer fur) {
-        super(number);
-        this.fur = fur;
-    }
-}
-
 

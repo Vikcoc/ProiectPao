@@ -1,12 +1,15 @@
 package DataLayer.Entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LibraryEvent extends BaseEntity{
 
     String name;
     String activity;
-    private List<EventParticipation> eventParticipations;
+    private List<EventParticipation> eventParticipations = new ArrayList<>();
+
+
 
     public String getName() {
         return name;
@@ -38,7 +41,6 @@ public class LibraryEvent extends BaseEntity{
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", activity='" + activity + '\'' +
-                ", eventParticipations=" + eventParticipations +
                 '}';
     }
 }

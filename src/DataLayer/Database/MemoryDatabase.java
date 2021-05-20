@@ -83,9 +83,9 @@ public class MemoryDatabase {
         copy2.setLibraryBookId(book1.getId());
 //        copy2.setLibraryRentals();
 
-        book1.setBookCopies(Arrays.asList(copy1,copy2));
+        book1.setBookCopies(new ArrayList<>(Arrays.asList(copy1,copy2)));
 
-        author1.setLibraryBooks(Arrays.asList(book1,book2));
+        author1.setLibraryBooks(new ArrayList<>(Arrays.asList(book1,book2)));
 
         var author2 = new Author();
         author2.setFirstName("Fera");
@@ -108,9 +108,9 @@ public class MemoryDatabase {
         copy3.setLibraryBookId(book3.getId());
 //        copy3.setLibraryRentals();
 
-        book3.setBookCopies(Arrays.asList(copy3));
+        book3.setBookCopies(new ArrayList<>(Arrays.asList(copy3)));
 
-        author2.setLibraryBooks(Arrays.asList(book3));
+        author2.setLibraryBooks(new ArrayList<>(Arrays.asList(book3)));
 
         var client = new LibraryClient();
         client.setId(1);
@@ -132,28 +132,28 @@ public class MemoryDatabase {
         lr2.setLibraryClient(client);
         lr2.setLibraryClientId(client.getId());
 
-        client.setLibraryRentals(Arrays.asList(lr1,lr2));
-        copy1.setLibraryRentals(Arrays.asList(lr1));
-        copy3.setLibraryRentals(Arrays.asList(lr2));
+        client.setLibraryRentals(new ArrayList<>(Arrays.asList(lr1,lr2)));
+        copy1.setLibraryRentals(new ArrayList<>(Arrays.asList(lr1)));
+        copy3.setLibraryRentals(new ArrayList<>(Arrays.asList(lr2)));
 
-        section1.setLibraryBooks(Arrays.asList(book1,book2,book3));
+        section1.setLibraryBooks(new ArrayList<>(Arrays.asList(book1,book2,book3)));
 
         sections.getEntities().add(section1);
         sections.setCount(1);
 
-        authors.getEntities().addAll(Arrays.asList(author1,author2));
+        authors.getEntities().addAll(new ArrayList<>(Arrays.asList(author1,author2)));
         authors.setCount(2);
 
-        libraryBooks.getEntities().addAll(Arrays.asList(book1,book2,book3));
+        libraryBooks.getEntities().addAll(new ArrayList<>(Arrays.asList(book1,book2,book3)));
         libraryBooks.setCount(3);
 
-        bookCopies.getEntities().addAll(Arrays.asList(copy1,copy2,copy3));
+        bookCopies.getEntities().addAll(new ArrayList<>(Arrays.asList(copy1,copy2,copy3)));
         bookCopies.setCount(3);
 
         libraryClients.getEntities().add(client);
         libraryClients.setCount(1);
 
-        libraryRentals.getEntities().addAll(Arrays.asList(lr1,lr2));
+        libraryRentals.getEntities().addAll(new ArrayList<>(Arrays.asList(lr1,lr2)));
         libraryRentals.setCount(2);
     }
 
