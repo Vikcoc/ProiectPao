@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 public class DbBaseRepository<T extends BaseEntity> implements BaseRepository<T> {
 
-    private DbConnection dbConnection = DbConnection.getInstance();
+    protected DbConnection dbConnection = DbConnection.getInstance();
 
     private final Class classOfT;
 
@@ -31,7 +31,6 @@ public class DbBaseRepository<T extends BaseEntity> implements BaseRepository<T>
             var index = 1;
             for (var field : fields.stream().filter(x -> !x.getName().equals("id")).collect(Collectors.toList())){
                 field.setAccessible(true);
-                System.out.println(String.valueOf(index) + String.valueOf(field.get(entity)));
                 preparedStatement.setString(index, String.valueOf(field.get(entity)));
                 index++;
             }

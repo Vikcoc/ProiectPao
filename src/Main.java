@@ -3,6 +3,7 @@ import DataLayer.Entities.Author;
 import DataLayer.Entities.LibraryBook;
 import DataLayer.Entities.LibraryClient;
 import DataLayer.Entities.LibraryEvent;
+import DataLayer.Repositories.DbClasses.DbUnitOfWork;
 import DataLayer.Repositories.Interfaces.UnitOfWork;
 import DataLayer.Repositories.Memory.MemoryUnitOfWork;
 import Services.Classes.*;
@@ -18,10 +19,12 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("here");
 
-        var db = MemoryDatabase.getInstance();
-        db.seed();
+//        var db = MemoryDatabase.getInstance();
+//        db.seed();
+//
+//        UnitOfWork uow = new MemoryUnitOfWork(db);
 
-        UnitOfWork uow = new MemoryUnitOfWork(db);
+        UnitOfWork uow = new DbUnitOfWork();
 
         Scanner scanner = new Scanner(System.in);
 
