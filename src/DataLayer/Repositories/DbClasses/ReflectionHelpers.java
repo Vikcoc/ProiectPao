@@ -38,6 +38,27 @@ public class ReflectionHelpers {
         return query.toString();
     }
 
+    public static String getInsertInto(List<Field> fields, BaseEntity obj) {
+        var propNames = fields.stream()
+                .map(x -> x.getName())
+                .filter(x -> !x.equals("id"))
+                .collect(Collectors.toList());
+        StringBuilder query = new StringBuilder();
+        query.append("Insert Into ");
+        query.append(obj.getClass().getSimpleName().toLowerCase(Locale.ROOT));
+        query.append("(");
+        query.append(propNames.stream().findFirst().get());
+        propNames.stream().skip(1)
+                .forEach(x -> query.append(", " + x));
+        query.append(") values (");
+        if(propNames.size() > 0)
+            query.append("?");
+        for (var i = 1; i < propNames.size(); i++)
+            query.append(",?");
+        query.append(")");
+        return query.toString();
+    }
+
     public static List<Field> getAllFields(List<Field> fields, Class<?> type) {
         fields.addAll(Arrays.asList(type.getDeclaredFields()));
 

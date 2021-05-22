@@ -25,14 +25,35 @@ public class Test {
 //            e.printStackTrace();
 //        }
 
-        var x = new DbBaseRepository<LibraryBook>(LibraryBook.class);
-        System.out.println(x.getAll());
+//        var x = new DbBaseRepository<Author>(Author.class);
+//        System.out.println(x.getAll());
+//
+//        var y = new DbBaseRepository<BookCopy>(BookCopy.class);
+//        System.out.println(y.getAll());
+//
+//        var a = new DbBaseRepository<EventParticipation>(EventParticipation.class);
+//        System.out.println(a.getAll());
+//
+//        var b = new DbBaseRepository<LibraryBook>(LibraryBook.class);
+//        System.out.println(b.getAll());
+//
+//        var c = new DbBaseRepository<LibraryClient>(LibraryClient.class);
+//        System.out.println(c.getAll());
+//
+//        var d = new DbBaseRepository<LibraryEvent>(LibraryEvent.class);
+//        System.out.println(d.getAll());
+//
+//        var e = new DbBaseRepository<LibraryRental>(LibraryRental.class);
+//        System.out.println(e.getAll());
+//
+//        var f = new DbBaseRepository<Section>(Section.class);
+//        System.out.println(f.getAll());
 
-        var y = new DbBaseRepository<Author>(Author.class);
-        System.out.println(y.getAll());
 
-        var z = new DbBaseRepository<BookCopy>(BookCopy.class);
-        System.out.println(z.getAll());
+        var x = new DbBaseRepository<Author>(Author.class);
+        var author = x.getById(3);
+        x.delete(author.get());
+        System.out.println(author);
     }
 
 

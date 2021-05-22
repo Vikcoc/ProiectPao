@@ -44,9 +44,7 @@ public class EventParticipation extends BaseEntity{
         return "EventParticipation{" +
                 "id=" + id +
                 ", libraryEventId=" + libraryEventId +
-                ", libraryEvent=" + libraryEvent +
                 ", libraryClientId=" + libraryClientId +
-                ", libraryClient=" + libraryClient +
                 '}';
     }
 }
