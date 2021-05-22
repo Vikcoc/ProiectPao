@@ -47,4 +47,14 @@ public class EventParticipation extends BaseEntity{
                 ", libraryClientId=" + libraryClientId +
                 '}';
     }
+
+    @Override
+    public String getHeaders() {
+        return "ID,EVENT_ID,CLIENT_ID\n";
+    }
+
+    @Override
+    public String asCsv() {
+        return id.toString() + "," + libraryEventId + "," + libraryClientId + "\n";
+    }
 }

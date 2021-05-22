@@ -48,4 +48,14 @@ public class LibraryRental extends BaseEntity{
                 ", bookCopyId=" + bookCopyId +
                 '}';
     }
+
+    @Override
+    public String getHeaders() {
+        return "ID,CLIENT_ID,BOOK_COPY_ID\n";
+    }
+
+    @Override
+    public String asCsv() {
+        return id.toString() + "," + libraryClientId + "," + bookCopyId + "\n";
+    }
 }

@@ -75,4 +75,14 @@ public class LibraryBook extends BaseEntity{
                 ", sectionId=" + sectionId +
                 '}';
     }
+
+    @Override
+    public String getHeaders() {
+        return "ID,NAME,AUTHOR_ID,SECTION_ID\n";
+    }
+
+    @Override
+    public String asCsv() {
+        return id.toString() + "," + name + "," + authorId + "," + sectionId + "\n";
+    }
 }

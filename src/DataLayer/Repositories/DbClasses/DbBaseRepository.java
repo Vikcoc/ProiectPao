@@ -2,6 +2,7 @@ package DataLayer.Repositories.DbClasses;
 
 import DataLayer.Entities.BaseEntity;
 import DataLayer.Repositories.Interfaces.BaseRepository;
+import Services.Classes.TemplateInsertedReport;
 
 import java.lang.reflect.Field;
 import java.sql.PreparedStatement;
@@ -17,8 +18,11 @@ public class DbBaseRepository<T extends BaseEntity> implements BaseRepository<T>
 
     private final Class classOfT;
 
+    private final TemplateInsertedReport<T> logger;
+
     public DbBaseRepository(Class classOfT) {
         this.classOfT = classOfT;
+        this.logger = TemplateInsertedReport.getInstance();
     }
 
 
@@ -38,6 +42,8 @@ public class DbBaseRepository<T extends BaseEntity> implements BaseRepository<T>
             ResultSet resultSet = preparedStatement.getGeneratedKeys();
             resultSet.next();
             entity.setId(Integer.parseInt(resultSet.getString(1)));
+
+            logger.WriteIt(entity);
         } catch (SQLException | IllegalAccessException e) {
             e.printStackTrace();
         }

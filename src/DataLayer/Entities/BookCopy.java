@@ -46,4 +46,14 @@ public class BookCopy extends BaseEntity {
                 ", libraryBookId=" + libraryBookId +
                 '}';
     }
+
+    @Override
+    public String getHeaders() {
+        return "ID,BOOK_ID\n";
+    }
+
+    @Override
+    public String asCsv() {
+        return id.toString() + "," + libraryBookId + "\n";
+    }
 }

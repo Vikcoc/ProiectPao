@@ -43,4 +43,14 @@ public class LibraryEvent extends BaseEntity{
                 ", activity='" + activity + '\'' +
                 '}';
     }
+
+    @Override
+    public String getHeaders() {
+        return "ID,NAME,ACTIVITY\n";
+    }
+
+    @Override
+    public String asCsv() {
+        return id.toString() + "," + name + "," + activity + "\n";
+    }
 }

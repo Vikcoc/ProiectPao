@@ -44,4 +44,14 @@ public class Section extends BaseEntity{
                 ", description='" + description + '\'' +
                 '}';
     }
+
+    @Override
+    public String getHeaders() {
+        return "ID,NAME,DESCRIPTION\n";
+    }
+
+    @Override
+    public String asCsv() {
+        return id.toString() + "," + name + "," + description + "\n";
+    }
 }

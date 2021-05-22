@@ -44,4 +44,14 @@ public class Author extends BaseEntity{
                 ", id=" + id +
                 '}';
     }
+
+    @Override
+    public String getHeaders() {
+        return "ID,FIRST_NAME,LAST_NAME\n";
+    }
+
+    @Override
+    public String asCsv() {
+        return id.toString() + "," + firstName + "," + lastName + "\n";
+    }
 }
